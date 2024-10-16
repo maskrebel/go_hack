@@ -1,0 +1,1 @@
+# Result tests for Hack
