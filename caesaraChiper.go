@@ -8,58 +8,28 @@ import (
 	"unicode"
 )
 
-func isAlphabet(c rune) bool {
-	alphabets := []rune{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
-		'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
-		'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'}
-
-	for _, alphabet := range alphabets {
-		if c == alphabet {
-			return true
-		}
-	}
-	return false
-}
-
-func validateUpperLower(v rune) string {
-	res := ""
-	if unicode.IsUpper(v) {
-		res = "upper"
-	} else {
-		res = "lower"
-	}
-
-	return res
-}
-
 func caesarCipher(s string, k int32) string {
 	res := ""
-	for {
-		if k > 26 {
-			k -= 26
-		} else {
-			break
-		}
-	}
+	k %= 26
 
 	for _, v := range s {
-		if isAlphabet(v) {
-			validate := validateUpperLower(v)
+		if unicode.IsLetter(v) {
+			beforeTransform := unicode.IsUpper(v)
 			v += k
 			for {
-				if !isAlphabet(v) {
+				if !unicode.IsLetter(v) {
 					v -= 26
 				} else {
 					break
 				}
 			}
+			afterTransform := unicode.IsUpper(v)
 
-			afterVal := validateUpperLower(v)
-
-			if validate != afterVal {
+			if beforeTransform != afterTransform {
 				v -= 26
 			}
 		}
+
 		res += string(v)
 	}
 	return res
