@@ -1,6 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
+)
 
 func minimumBribes(q []int32) {
 	bribes := 0
@@ -21,6 +27,27 @@ func minimumBribes(q []int32) {
 }
 
 func main() {
-	q := []int32{2, 1, 5, 3, 4}
-	minimumBribes(q)
+	file, _ := os.Open("assets/newYearChaos.txt")
+	defer file.Close()
+	scanner := bufio.NewScanner(file)
+	arr := make([][]int32, 0)
+	i := 0
+	for scanner.Scan() {
+		line := scanner.Text()
+		i++
+		if i == 1 || i%2 == 0 {
+			continue
+		}
+		splitLines := strings.Split(line, " ")
+		sArr := make([]int32, 0)
+		for _, v := range splitLines {
+			newVal, _ := strconv.Atoi(v)
+			sArr = append(sArr, int32(newVal))
+		}
+		arr = append(arr, sArr)
+	}
+
+	for _, q := range arr {
+		minimumBribes(q)
+	}
 }
