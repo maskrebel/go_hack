@@ -11,16 +11,18 @@ import (
 // search unique number
 // ex: [1 2 3 4 3 2 1] and unique is 4
 func lonelyInteger(a []int32) int32 {
-	mapArr := make(map[int32]int32)
+	mapArr := make(map[int32]struct{})
 	for _, v := range a {
-		mapArr[v]++
+		if _, ok := mapArr[v]; ok {
+			delete(mapArr, v)
+		} else {
+			mapArr[v] = struct{}{}
+		}
 	}
 
 	unique := int32(0)
-	for k, v := range mapArr {
-		if v == 1 {
-			unique = k
-		}
+	for i := range mapArr {
+		unique = i
 	}
 
 	return unique
