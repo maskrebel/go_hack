@@ -18,6 +18,7 @@ func pangrams(s string) string {
 }
 
 func main() {
+	// any alphabets must in the string [a....z]
 	s := "We promptly judged antique ivory buckles for the next prize"
 	fmt.Println(pangrams(s))
 }
